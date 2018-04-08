@@ -26,7 +26,7 @@
       </el-form>
     </el-col>
     <el-col :span="24">
-      <el-table  :data="tableData" style="width: 100%" border >
+      <el-table  v-loading="loading"  :data="tableData" style="width: 100%" border >
         <el-table-column
           prop="code"
           label="股票代码"
@@ -79,6 +79,7 @@
       let start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
       return {
+        loading:true,
         tableData: [],
         total:0,
         form: {
@@ -93,15 +94,22 @@
       onSubmit() {
         getBulletin(this.form).then(res=>{
          this.tableData=res.data.data;
-         this.total = res.data.total
+         this.total = res.data.total;
+         this.loading=false;
+        }).catch(error=>{
+          this.loading=true;
         });
       },
       currentChange(v){
         this.form.page =v;
         getBulletin(this.form).then(res=>{
           this.tableData=res.data.data;
-          this.total = res.data.total
-        });
+          this.total = res.data.total;
+          this.loading=false;
+        }).catch(error=>{
+          this.loading=true;
+          }
+        );
       }
     },
     mounted: function () {

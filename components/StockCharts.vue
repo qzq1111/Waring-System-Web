@@ -8,6 +8,9 @@
           <el-form-item>
             <el-button type="primary" @click="drawCharts">查询</el-button>
           </el-form-item>
+          <el-form-item>
+            <el-tag type="danger">发生重大事项的概率：{{probability}} %</el-tag>
+          </el-form-item>
         </el-form>
       </el-col>
       <el-col :span="12">
@@ -17,7 +20,7 @@
         <div id="chartPie" style="width:100%; height:300px;"></div>
       </el-col>
       <el-col :span="24">
-        <el-table  :data="tableData" style="width: 100%" border >
+        <el-table  v-loading="loading" :data="tableData" style="width: 100%" border >
           <el-table-column
             prop="code"
             label="股票代码"
@@ -64,13 +67,15 @@
 <script>
   import Echarts from 'echarts'
   import moment from "moment"
-  import {getBulletinCategory,getBulletinStat,getBulletin} from '../api/api'
+  import {getBulletinCategory,getBulletinStat,getBulletin,getProbability} from '../api/api'
   export default {
     data() {
       let end = new Date();
       let start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
       return {
+        probability:0,
+        loading: true,
         tableData: [],
         total:0,
         form: {
@@ -206,25 +211,43 @@
             ]
           });
           }
-        );
+        ).catch(err=>{
 
+        });
+
+      },
+      warningProbability(){
+        getProbability(this.form).then(res=>{
+          res =res.data;
+          this.probability= res.pro
+
+        }).catch(err=>{
+
+        })
       },
       drawCharts() {
         this.drawBarChart();
         this.drawPieChart();
         this.onSubmit();
+        this.warningProbability()
       },
       onSubmit() {
         getBulletin(this.form).then(res=>{
           this.tableData=res.data.data;
-          this.total = res.data.total
+          this.total = res.data.total;
+          this.loading =false;
+        }).catch(error=>{
+          this.loading=true;
         });
       },
       currentChange(v){
         this.form.page =v;
         getBulletin(this.form).then(res=>{
           this.tableData=res.data.data;
-          this.total = res.data.total
+          this.total = res.data.total;
+          this.loading =false;
+        }).catch(error=>{
+          this.loading=true;
         });
       }
     },

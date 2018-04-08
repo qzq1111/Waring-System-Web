@@ -2,22 +2,30 @@
   <section class="chart-container">
   <el-row >
     <el-col :span="14">
-      <p style="text-align: center;font-size: 20px;font-weight: normal;font-style: normal;font-family: sans-serif">停牌事件预警</p>
+      <p style="text-align: center;font-size: 20px;font-weight:normal;
+      font-style: normal;font-family: sans-serif">停牌事件预警top20</p>
       <el-table  :data="tableData" style="width: 100%" border>
-      <el-table-column  prop="date" label="日期" width="180">
+        <el-table-column
+          type="index"
+          width="50">
+        </el-table-column>
+      <el-table-column  prop="stockcode" label="股票代码" >
       </el-table-column>
-      <el-table-column  prop="name" label="姓名" width="180">
+      <el-table-column  prop="name" label="股票名称">
       </el-table-column>
-      <el-table-column prop="address" label="地址">
+      <el-table-column prop="probability" label="停牌概率">
+        <template slot-scope="scope">
+            {{scope.row.probability}}%
+        </template>
       </el-table-column>
     </el-table></el-col>
     <el-col :span="10">
       <el-row>
        <el-col :span="24">
-         <div id="chartBar" style="width:100%; height:200px;"></div>
+         <div id="chartBar" style="width:100%; height:300px;"></div>
        </el-col>
         <el-col :span="24">
-          <div id="chartPie" style="width:100%; height:200px;"></div>
+          <div id="chartPie" style="width:100%; height:300px;"></div>
         </el-col>
         <el-col :span="24">
           <div style="width:100%; height:200px;">
@@ -44,48 +52,13 @@
 </template>
 
 <script>
-    import {getStat} from '../api/api'
+    import {getStat,getWarningList} from '../api/api'
     import Echarts from 'echarts'
     export default {
       name: 'HomePage',
       data() {
     return {
-      tableData: [
-        {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },{date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄' },
-        {date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      },{
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      },{
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      },{
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      },],
+      tableData: [],
       recently_total:0,
       date:'0000-00-00',
       total:0
@@ -188,8 +161,12 @@
       )
 
     },
-    drawPieChart(){
-
+    getWarning(){
+      getWarningList().then(res=>{
+        res=res.data;
+        this.tableData=res.data;
+      }).catch(err=>{
+      })
     },
     drawCharts() {
       this.drawBarChart();
@@ -197,6 +174,7 @@
   },
   mounted: function () {
     this.drawCharts();
+    this.getWarning();
 
   },
 

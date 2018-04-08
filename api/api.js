@@ -33,9 +33,16 @@ export const  getBulletinStat =(params)=>{
     params:params
   })
 };
-export const  getAccount =(params)=>{
+export const  getProbability =(params)=>{
   return axios.request({
-    url:`${Base}/statistics/getaccount`,
+    url:`${Base}/bulletin/warning/probability`,
+    method:'get',
+    params:params
+  })
+};
+export const  getWarningList =(params)=>{
+  return axios.request({
+    url:`${Base}/bulletin/warning/list`,
     method:'get',
     params:params
   })
