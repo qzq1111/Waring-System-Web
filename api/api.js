@@ -47,5 +47,10 @@ export const  getWarningList =(params)=>{
     params:params
   })
 };
-
-
+export const  getNBM =(params)=>{
+  return axios.request({
+    url:`${Base}/analysis/nbm`,
+    method:'get',
+    params:params
+  })
+};

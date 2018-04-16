@@ -13,6 +13,9 @@
           </el-form-item>
         </el-form>
       </el-col>
+      <el-col :span="24">
+        <img :src="imgUrl" style="width:100%; height:300px;">
+      </el-col>
       <el-col :span="12">
         <div id="chartLine" style="width:100%; height:300px;"></div>
       </el-col>
@@ -74,6 +77,7 @@
       let start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
       return {
+        imgUrl:"",
         probability:0,
         loading: true,
         tableData: [],
@@ -106,7 +110,7 @@
           chartBar.setOption({
 
             title: {
-              text: '股票公告数概览',
+              text: '最近6个月股票公告数概览',
               x: 'center'
             },
             tooltip: {
@@ -174,7 +178,7 @@
           let chartPie = Echarts.init(document.getElementById('chartPie'));
           chartPie.setOption({
             title: {
-              text: '公告类别概览',
+              text: '最近6个月公告类别概览',
               x: 'center'
             },
             tooltip: {
@@ -219,7 +223,8 @@
       warningProbability(){
         getProbability(this.form).then(res=>{
           res =res.data;
-          this.probability= res.pro
+          this.probability= res.pro;
+          this.imgUrl=res.url;
 
         }).catch(err=>{
 

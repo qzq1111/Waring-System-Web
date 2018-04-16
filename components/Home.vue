@@ -1,36 +1,27 @@
 <template >
   <el-container style="border: 1px solid #eee">
-    <el-header style="text-align: right; font-size: 12px">
-      <el-dropdown>
-        <i class="el-icon-setting" style="margin-right: 15px"></i>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>修改密码</el-dropdown-item>
-          <el-dropdown-item>注销</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <span>秦智强</span>
-    </el-header>
+
     <el-container>
-      <el-aside width="150px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-active="$route.path" class="el-menu-demo" router>
+      <el-header >
+        <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
           <el-menu-item index="/">
             <i class="el-icon-menu"> </i>
             <span slot="title">主页</span>
           </el-menu-item>
           <el-menu-item index="/stockbulletin">
             <i class="el-icon-document"> </i>
-            <span slot="title">个股公告</span>
+            <span slot="title">个股公告详细信息</span>
           </el-menu-item>
-          <el-menu-item index="/stockcharts">
+          <el-menu-item index="/kyanalysis">
             <i class="el-icon-tickets"> </i>
-            <span slot="title">图表</span>
+            <span slot="title">基于关键字预测</span>
           </el-menu-item>
-          <!--<el-menu-item index="/associationrule">-->
-            <!--<i class="el-icon-tickets"> </i>-->
-            <!--<span slot="title">关联规则</span>-->
-          <!--</el-menu-item>-->
+          <el-menu-item index="/nbanalysis">
+            <i class="el-icon-tickets"> </i>
+            <span slot="title">基于NBM预测</span>
+          </el-menu-item>
         </el-menu>
-      </el-aside>
+      </el-header>
       <el-main>
         <router-view/>
       </el-main>
@@ -40,30 +31,19 @@
 </template>
 
 <script>
+    import ElHeader from "element-ui/packages/header/src/main";
+
     export default {
+      components: {ElHeader},
       name: "home",
       data() {
-        const item = {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        };
-        return {
-          tableData: Array(20).fill(item)
-        }
+        return {}
       },
     }
 </script>
 
 <style scoped>
   .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-    min-height: 90vh;
+    line-height: 100px;
   }
 </style>

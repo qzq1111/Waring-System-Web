@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/HomePage'
 import StockBulletin from '@/components/StockBulletin'
-import StockCharts from '@/components/StockCharts'
-import AssociationRule from '@/components/AssociationRule'
+import KYAnalysis from '@/components/KYAnalysis.vue'
+import NBMAnalysis from '@/components/NBMAnalysis.vue'
 
 Vue.use(Router);
 
@@ -21,14 +21,15 @@ export default new Router({
       component:StockBulletin
     },
     {
-      path:'/stockcharts',
-      name:'StockCharts',
-      component:StockCharts
+      path:'/kyanalysis',
+      name:'KYAnalysis',
+      component:KYAnalysis
     },
     {
-      path:'/associationrule',
-      name:'AssociationRule',
-      component:AssociationRule
+      path:'/nbanalysis',
+      name:'NBMAnalysis',
+      component:NBMAnalysis,
+
     },
   ]
 })
