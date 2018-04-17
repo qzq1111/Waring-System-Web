@@ -1,7 +1,5 @@
 <template >
-  <el-container style="border: 1px solid #eee">
-
-    <el-container>
+  <el-container>
       <el-header >
         <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
           <el-menu-item index="/">
@@ -26,15 +24,13 @@
         <router-view/>
       </el-main>
     </el-container>
-  </el-container>
-
 </template>
 
 <script>
-    import ElHeader from "element-ui/packages/header/src/main";
+    // import ElHeader from "element-ui/packages/header/src/main";
 
     export default {
-      components: {ElHeader},
+      // components: {ElHeader},
       name: "home",
       data() {
         return {}

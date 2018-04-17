@@ -2,23 +2,26 @@
   <section class="chart-container">
   <el-row >
     <el-col :span="14">
-      <p style="text-align: center;font-size: 20px;font-weight:normal;
-      font-style: normal;font-family: sans-serif">停牌事件预警top20</p>
-      <el-table  :data="tableData" style="width: 100%" border>
-        <el-table-column
-          type="index"
-          width="50">
+        <p style="text-align: center;font-size: 20px;font-weight:normal;
+        font-style: normal;font-family: sans-serif">停牌事件预警top20</p>
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" border>
+          <el-table-column
+            type="index"
+            width="50px">
+          </el-table-column>
+          <el-table-column  prop="stockcode" label="股票代码">
+          </el-table-column>
+          <el-table-column  prop="name" label="股票名称" >
+          </el-table-column>
+          <el-table-column prop="probability" label="基于关键字概率">
+          <template slot-scope="scope">
+              {{scope.row.probability}}%
+          </template>
         </el-table-column>
-      <el-table-column  prop="stockcode" label="股票代码" >
-      </el-table-column>
-      <el-table-column  prop="name" label="股票名称">
-      </el-table-column>
-      <el-table-column prop="probability" label="停牌概率">
-        <template slot-scope="scope">
-            {{scope.row.probability}}%
-        </template>
-      </el-table-column>
-    </el-table></el-col>
+          <el-table-column  prop="nbm" label="基于NBM（预警/不预警）">
+          </el-table-column>
+        </el-table>
+    </el-col>
     <el-col :span="10">
       <el-row>
        <el-col :span="24">
@@ -39,7 +42,7 @@
                 <td>{{date}}</td>
               </tr>
               <tr>
-                <td>公告总数</td>
+                <td>数据库公告总数</td>
                 <td>{{total}}条</td>
               </tr>
             </table>
@@ -58,6 +61,7 @@
       name: 'HomePage',
       data() {
     return {
+      loading:true,
       tableData: [],
       recently_total:0,
       date:'0000-00-00',
@@ -69,10 +73,10 @@
       let date =[],count=[],data=[];
       getStat().then(res => {
         res= res.data;
-        console.log(res.warning);
         this.date=res.date;
         this.recently_total=res.recently_total;
         this.total =res.total;
+        this.loading=false;
         for(let i = 0,tmp,len= res.data.length; i < len; i++) {
           tmp = res.data[i];
           date.push(tmp.date);
